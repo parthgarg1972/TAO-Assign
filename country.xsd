@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" elementFormDefault="qualified"
+    vc:minVersion="1.1">
+    <xs:element name="country">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="state"/>
+                <xs:element maxOccurs="unbounded" ref="Islands"/>
+                <xs:element maxOccurs="unbounded" ref="Rivers"/>
+                <xs:element maxOccurs="unbounded" ref="Union_Territory"/>
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string"/>
+            <xs:attribute name="langauage" type="xs:string"/>
+            <xs:attribute name="Area" type="xs:integer"/>
+            <xs:attribute name="Capital" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Rivers">
+        <xs:complexType>
+            <xs:attribute name="name" type="xs:string"/>
+            <xs:attribute name="flows_through" type="xs:IDREFS"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Islands">
+        <xs:complexType>
+            <xs:attribute name="name" type="xs:string"/>
+            <xs:attribute name="Area" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Union_Territory">
+        <xs:complexType>
+            <xs:attribute name="name" type="xs:string"/>
+            <xs:attribute name="Area" type="xs:integer"/>
+            <xs:attribute name="langauage" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="subdistricts">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="rural"/>
+                <xs:element ref="urban"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="urban">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="no_of_towns" type="xs:nonNegativeInteger"/>
+                <xs:element ref="population"/>
+                <xs:element ref="area"/>
+                <xs:element ref="no_of_households"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="rural">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="no_of_villages" type="xs:nonNegativeInteger"/>
+                <xs:element name="population">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="male" type="xs:nonNegativeInteger"/>
+                            <xs:element name="female" type="xs:nonNegativeInteger"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element ref="area"/>
+                <xs:element ref="no_of_households"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="district">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="subdistricts"/>
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string"/>
+            <xs:attribute name="Area" type="xs:integer"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="state">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="district"/>
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string"/>
+            <xs:attribute name="state_id" type="xs:ID"/>
+            <xs:attribute name="Capital" type="xs:string"/>
+            <xs:attribute name="language" type="xs:string"/>
+            <xs:attribute name="coastal_area" type="xs:string" use="required"/>
+            <xs:attribute name="neighbours" type="xs:IDREFS"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="population">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="male" type="xs:nonNegativeInteger"/>
+                <xs:element name="female" type="xs:nonNegativeInteger"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="area" type="xs:float"/>
+    <xs:element name="no_of_households" type="xs:nonNegativeInteger"/>
+</xs:schema>
