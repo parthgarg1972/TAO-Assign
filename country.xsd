@@ -5,43 +5,93 @@
     <xs:element name="country">
         <xs:complexType>
             <xs:sequence>
+                <xs:element name="country_name" type="xs:string" fixed="India"/>
+                <xs:element name="country_area" type="xs:float"/>
+                <xs:element name="country_capital" type="xs:string"/>
                 <xs:element maxOccurs="unbounded" ref="state"/>
-                <xs:element maxOccurs="unbounded" ref="island"/>
-                <xs:element maxOccurs="unbounded" ref="river"/>
                 <xs:element maxOccurs="unbounded" ref="union_territory"/>
+                <xs:element maxOccurs="unbounded" ref="river"/>
             </xs:sequence>
-            <xs:attribute name="name" type="xs:string"/>
-            <xs:attribute name="langauage" type="xs:string"/>
-            <xs:attribute name="area" type="xs:float"/>
-            <xs:attribute name="capital" type="xs:string"/>
-            <xs:attribute name="country_id" type="xs:ID"/>
+            <xs:attribute name="country_id" type="xs:ID" fixed="IN" use="required"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="river">
         <xs:complexType>
-            <xs:attribute name="name" type="xs:string"/>
-            <xs:attribute name="flows_through" type="xs:IDREFS"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="island">
-        <xs:complexType>
-            <xs:attribute name="name" type="xs:string"/>
-            <xs:attribute name="area" type="xs:integer"/>
+            <xs:sequence>
+                <xs:element name="flows_through" type="xs:IDREFS"/>
+            </xs:sequence>
+            <xs:attribute name="river_name">
+                <xs:simpleType >
+                    <xs:restriction base="xs:ID">
+                        <xs:pattern value="[A-Z]([a-z])*"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
         </xs:complexType>
     </xs:element>
     <xs:element name="union_territory">
         <xs:complexType>
-            <xs:attribute name="name" type="xs:string"/>
-            <xs:attribute name="area" type="xs:integer"/>
-            <xs:attribute name="langauage" type="xs:string"/>
+            <xs:sequence>
+                <xs:element name="union_territory_name">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:pattern value="[A-Z]([a-z-&amp;]+[ ]?)*"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:group ref="urban_rural_data"/>
+            </xs:sequence>
+            <xs:attribute name="ut_id" type="xs:ID" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="state">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="state_name">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:pattern value="[A-Z]([a-z-&amp;]+[ ]?)*"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="state_capital" type="xs:string"/>
+                <xs:element name="state_language" type="xs:string"/>
+                <xs:element name="state_neighbours" type="xs:IDREFS"/>
+                <xs:element maxOccurs="unbounded" ref="district"/>
+            </xs:sequence>
+            <xs:attribute name="is_coastal_area_present">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="yes"/>
+                        <xs:enumeration value="no"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="state_id" type="xs:ID" use="required"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="district">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="district_name" type="xs:string"/>
+                <xs:element maxOccurs="unbounded" ref="sub_district"/>
+            </xs:sequence>
+            <xs:attribute name="district_id" type="xs:ID" use="required"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="sub_district">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="rural"/>
-                <xs:element ref="urban"/>
+                <xs:element name="sub_district_name">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:pattern value="[A-Z]([a-z-&amp;]+[ ]?)*"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:group ref="urban_rural_data"/>
             </xs:sequence>
+            <xs:attribute name="sub_district_id" type="xs:ID" use="required"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="urban">
@@ -49,8 +99,8 @@
             <xs:sequence>
                 <xs:element name="no_of_towns" type="xs:nonNegativeInteger"/>
                 <xs:element ref="population"/>
-                <xs:element ref="area"/>
-                <xs:element ref="no_of_households"/>
+                <xs:element name="area" type="xs:float"/>
+                <xs:element name="no_of_households" type="xs:nonNegativeInteger"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -58,39 +108,10 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="no_of_villages" type="xs:nonNegativeInteger"/>
-                <xs:element name="population">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="male" type="xs:nonNegativeInteger"/>
-                            <xs:element name="female" type="xs:nonNegativeInteger"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element ref="area"/>
-                <xs:element ref="no_of_households"/>
+                <xs:element ref="population"/>
+                <xs:element name="area" type="xs:float"/>
+                <xs:element name="no_of_households" type="xs:nonNegativeInteger"/>
             </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="district">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element maxOccurs="unbounded" ref="sub_district"/>
-            </xs:sequence>
-            <xs:attribute name="name" type="xs:string"/>
-            <xs:attribute name="area" type="xs:float"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="state">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element maxOccurs="unbounded" ref="district"/>
-            </xs:sequence>
-            <xs:attribute name="name" type="xs:string"/>
-            <xs:attribute name="state_id" type="xs:ID"/>
-            <xs:attribute name="capital" type="xs:string"/>
-            <xs:attribute name="language" type="xs:string"/>
-            <xs:attribute name="is_coastal_area_present" type="xs:boolean" use="required"/>
-            <xs:attribute name="neighbours" type="xs:IDREFS"/>
         </xs:complexType>
     </xs:element>
     <xs:element name="population">
@@ -101,6 +122,10 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    <xs:element name="area" type="xs:float"/>
-    <xs:element name="no_of_households" type="xs:nonNegativeInteger"/>
+    <xs:group name="urban_rural_data">
+        <xs:sequence>
+            <xs:element ref="rural"/>
+            <xs:element ref="urban"/>
+        </xs:sequence>
+    </xs:group>
 </xs:schema>
