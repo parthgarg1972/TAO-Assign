@@ -21,7 +21,7 @@
                 <xs:element name="flows_through" type="xs:IDREFS"/>
             </xs:sequence>
             <xs:attribute name="river_name">
-                <xs:simpleType >
+                <xs:simpleType>
                     <xs:restriction base="xs:ID">
                         <xs:pattern value="[A-Z]([a-z])*"/>
                     </xs:restriction>
@@ -73,7 +73,13 @@
     <xs:element name="district">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="district_name" type="xs:string"/>
+                <xs:element name="district_name">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:pattern value="[A-Z]([a-z-&amp;]+[ ]?)*"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
                 <xs:element maxOccurs="unbounded" ref="sub_district"/>
             </xs:sequence>
             <xs:attribute name="district_id" type="xs:ID" use="required"/>
