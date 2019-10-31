@@ -5,7 +5,7 @@
     <xs:element name="country">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="country_name" type="xs:string" fixed="India"/>
+                <xs:element name="country_name" type="xs:string" fixed="INDIA"/>
                 <xs:element name="country_area" type="xs:float"/>
                 <xs:element name="country_capital" type="xs:string"/>
                 <xs:element maxOccurs="unbounded" ref="state"/>
